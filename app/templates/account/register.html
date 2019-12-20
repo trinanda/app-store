@@ -1,0 +1,142 @@
+{% import 'macros/form_macros.html' as f %}
+{% import 'macros/check_password.html' as check %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <title>Sign Up</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='images/app/example/AQUR-logo.jpg') }}">
+    <style>
+      #loader {
+        transition: all .3s ease-in-out;
+        opacity: 1;
+        visibility: visible;
+        position: fixed;
+        height: 100vh;
+        width: 100%;
+        background: #fff;
+        z-index: 90000
+      }
+
+      #loader.fadeOut {
+        opacity: 0;
+        visibility: hidden
+      }
+
+      .spinner {
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        top: calc(50% - 20px);
+        left: calc(50% - 20px);
+        background-color: #333;
+        border-radius: 100%;
+        -webkit-animation: sk-scaleout 1s infinite ease-in-out;
+        animation: sk-scaleout 1s infinite ease-in-out
+      }
+
+      @-webkit-keyframes sk-scaleout {
+        0% {
+          -webkit-transform: scale(0)
+        }
+
+        100% {
+          -webkit-transform: scale(1);
+          opacity: 0
+        }
+      }
+
+      @keyframes sk-scaleout {
+        0% {
+          -webkit-transform: scale(0);
+          transform: scale(0)
+        }
+
+        100% {
+          -webkit-transform: scale(1);
+          transform: scale(1);
+          opacity: 0
+        }
+      }
+    </style>
+    <link href="{{ url_for('static', filename='adminator-admin-dashboard/css/stylesheet.css' )}}" rel="stylesheet" type="text/css" />
+    {% include 'partials/_head.html' %}
+    {# Any templates that extend this template can set custom_head_tags to add scripts to their page #}
+    {% block custom_head_tags %}{% endblock %}
+  </head>
+  <body class="app">
+    <div id="loader">
+      <div class="spinner"></div>
+    </div>
+    <script>
+      window.addEventListener('load', function load() {
+        const loader = document.getElementById('loader');
+        setTimeout(function() {
+          loader.classList.add('fadeOut');
+        }, 300);
+      });
+    </script>
+    <div class="peers ai-s fxw-nw h-100vh">
+      <div class="peer peer-greed h-100 pos-r bgr-n bgpX-c bgpY-c bgsz-cv" style="background-image:url( {{ url_for('static', filename='adminator-admin-dashboard/assets/static/images/bg.jpg') }} )">
+        <div class="pos-a centerXY">
+          <div class="bgc-white bdrs-50p pos-r" style="width:120px;height:120px"><img class="pos-a centerXY" src="{{ url_for('static', filename='adminator-admin-dashboard/assets/static/images/logo.png') }}" alt=""></div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 peer pX-40 pY-80 h-100 bgc-white scrollable pos-r" style="min-width:320px">
+        <h2 class="fw-300 c-grey-900 mB-40">Register <br>
+          <hr>
+        </h2>
+        {% set flashes = {
+        'error': get_flashed_messages(category_filter=['form-error']),
+        'warning': get_flashed_messages(category_filter=['form-check-email']),
+        'info': get_flashed_messages(category_filter=['form-info']),
+        'success': get_flashed_messages(category_filter=['form-success'])
+        } %}
+        {{ f.begin_form(form, flashes) }}
+        <div>
+          <div class="form-group">
+            {{ f.render_form_field(form.first_name) }}
+          </div>
+          <div class="form-group">
+            {{ f.render_form_field(form.last_name) }}
+          </div>
+          <div class="form-group">
+            {{ f.render_form_field(form.email) }}
+          </div>
+          <div class="form-group">
+            {{ f.render_form_field(form.password) }}
+          </div>
+          <div class="form-group">
+            {{ f.render_form_field(form.password2) }}
+          </div>
+          {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
+          {{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}
+          {{ f.form_message(flashes['info'], header='Information', class='info') }}
+          {{ f.form_message(flashes['success'], header='Success!', class='success') }}
+          <div class="form-group">
+            {% for field in form | selectattr('type', 'equalto', 'SubmitField') %}
+            <div class="row">
+              <div class="col">
+                {{ f.render_form_field(field) }}
+              </div>
+              <div class="col">
+                <a href="{{ url_for('account.login') }}">Already have an account?</a>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {{ f.end_form(form) }}
+        </div>
+      </div>
+      {{ check.password_check('password', 0) }}
+      {# Implement CSRF protection for site #}
+      {% if csrf_token()|safe %}
+      <div style="visibility: hidden; display: none">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token()|safe }}">
+      </div>
+      {% endif %}
+    </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='adminator-admin-dashboard/js/vendor.js', _external=True) }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='adminator-admin-dashboard/js/bundle.js', _external=True) }}"></script>
+  </body>
+</html>

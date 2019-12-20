@@ -1,0 +1,37 @@
+{% macro render_flashes(class) %}
+    {% with msgs = get_flashed_messages(category_filter=[class]) %}
+        {% for msg in msgs %}
+            <div class="ui {{ class }} message" data-autohide="10">
+                <i class="close icon" onclick="delete_flash(this)"></i>
+                {{ msg }}
+                <button type="button" class="close icon"></button>
+            </div>
+        {% endfor %}
+    {% endwith %}
+{% endmacro %}
+
+<div class="ui text container">
+  <div class="flashes">
+    {{ render_flashes('error') }}
+    {{ render_flashes('warning') }}
+    {{ render_flashes('info') }}
+    {{ render_flashes('success') }}
+  </div>
+</div>
+
+<script>
+  function delete_flash(flash) {
+    $(flash).parent().remove()
+  }
+
+  $('.message').each((i, el) => {
+    const $el = $(el);
+    const $xx = $el.find('.close');
+    const sec = $el.data('autohide');
+    const triggerRemove = () => clearTimeout($el.trigger('remove').T);
+
+    $el.one('remove', () => $el.remove());
+    $xx.one('click', triggerRemove);
+    if (sec) $el.T = setTimeout(triggerRemove, sec * 1000);
+  });
+</script>
