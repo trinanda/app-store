@@ -16,12 +16,12 @@
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="x_panel">
 				<div class="x_title">
-					<h2>{{ _('Category') }}</h2>
+					<h2>{{ _('Products') }}</h2>
 					<div class="d-flex justify-content-end">
 						<div class="p-2" style="margin-top: 10px;">
 						</div>
 						<div class="p-2" style="margin-top: 10px;">
-							<a href="{{ url_for('category.add_category') }}" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">{{ _('Add new Category') }}</a>
+							<a href="{{ url_for('product.add_product') }}" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">{{ _('Add new Product') }}</a>
 						</div>
 					</div>
 					<div class="clearfix"></div>
@@ -31,19 +31,36 @@
 						<thead>
 							<tr>
 								<th>{{ _('Name') }}</th>
-								<th>{{ _('Create at') }}</th>
+								<th>{{ _('Category') }}</th>
+								<th>{{ _('Color') }}</th>
+								<th>{{ _('Size') }}</th>
+								<th>{{ _('Barcode') }}</th>
+								<th>{{ _('Image') }}</th>
+								<th>{{ _('Description') }}</th>
+								<th>{{ _('Created at') }}</th>
 								<th>{{ _('Update at') }}</th>
 								<th>{{ _('Action') }}</th>
 							</tr>
 						</thead>
 						<tbody>
-						{% for data in categories %}
+						{% for data in products %}
 							<tr>
 								<td>{{ data.name }}</td>
+								<td>{{ data.category }}</td>
+								<td>{{ data.color }}</td>
+								<td>{{ data.size }}</td>
+								<td>{{ data.barcode }}</td>
+								<td>
+									{% if data.image %}
+										<img class="card-img-top" src="{{ url_for('static', filename='images/app/'+data['image']) }}" alt="{{data.image}}" style="width: 120px; height: 120px;">
+									{% else %}
+									{% endif %}
+								</td>
+								<td>{{ data.description }}</td>
 								<td>{{ data.created_at }}</td>
 								<td>{{ data.updated_at }}</td>
 								<td>
-									<a href="{{ url_for('category.edit_category', category_id=data.id) }}"><button class="btn btn-info">Edit</button></a>
+									<a href="{{ url_for('product.edit_product', product_id=data.id) }}"><button class="btn btn-info">Edit</button></a>
 									<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#ConfirmDeleteModal{{ data.id }}">{{ _('Delete') }}</button>
 								</td>
 							</tr>
@@ -58,11 +75,11 @@
 											</button>
 										</div>
 										<div class="modal-body">
-											{{ _('Are you sure to delete this category..?') }}
+											{{ _('Are you sure to delete this product..?') }}
 										</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('No') }}</button>
-											<a href="{{ url_for('category.delete_category', category_id=data.id) }}"><button type="button" class="btn btn-danger">{{ _('Yes') }}</button></a>
+											<a href="{{ url_for('product.delete_product', product_id=data.id) }}"><button type="button" class="btn btn-danger">{{ _('Yes') }}</button></a>
 										</div>
 									</div>
 								</div>
@@ -72,7 +89,13 @@
 							<tfoot>
 								<tr>
 									<th>{{ _('Name') }}</th>
-									<th>{{ _('Create at') }}</th>
+									<th>{{ _('Category') }}</th>
+									<th>{{ _('Color') }}</th>
+									<th>{{ _('Size') }}</th>
+									<th>{{ _('Barcode') }}</th>
+									<th>{{ _('Image') }}</th>
+									<th>{{ _('Description') }}</th>
+									<th>{{ _('Created at') }}</th>
 									<th>{{ _('Update at') }}</th>
 									<th>{{ _('Action') }}</th>
 								</tr>

@@ -76,8 +76,11 @@ def create_app(config):
     # from app.users.main import main as main_blueprint
     # app.register_blueprint(main_blueprint)
 
-    from app.users.main.category import category as category_blueprint
+    from app.store.category import category as category_blueprint
     app.register_blueprint(category_blueprint, url_prefix='/category')
+
+    from app.store.product import product as product_blueprint
+    app.register_blueprint(product_blueprint, url_prefix='/product')
 
     if not app.debug and not app.testing:
         if app.config['MAIL_SERVER']:

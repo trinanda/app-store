@@ -5,17 +5,15 @@ from flask_babel import _
 
 from app import db
 from app.models import Category
-from app.users.main.category import category as bp
-from app.users.main.category.forms import CategoryForm
+from app.store.category import category as bp
+from app.store.category.forms import CategoryForm
 
 
 @bp.route('/')
 @bp.route('/categories')
 def categories():
     categories = Category.query.all()
-    for data in categories:
-        print(data.created_at)
-    return render_template('main/category/categories.html', categories=categories)
+    return render_template('store/category/categories.html', categories=categories)
 
 
 @bp.route('/add-category', methods=['GET', 'POST'])
@@ -31,7 +29,7 @@ def add_category():
             return redirect(url_for('category.add_category'))
         flash(_('Successfully added new category'), 'success')
         return redirect(url_for('category.categories'))
-    return render_template('main/category/manipulate-category.html', form=form)
+    return render_template('store/category/manipulate-category.html', form=form)
 
 
 @bp.route('/delete_category/<int:category_id>')
@@ -67,4 +65,4 @@ def edit_category(category_id):
             db.session.rollback()
         flash(_('Successfully edit category'), 'success')
         return redirect(url_for('category.categories'))
-    return render_template('main/category/manipulate-category.html', category=category, form=form)
+    return render_template('store/category/manipulate-category.html', category=category, form=form)

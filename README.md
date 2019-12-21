@@ -1,4 +1,4 @@
-# AShHABUL QUR'AN
+# App-Store
 
 This app based on this nicely boilerplate: https://github.com/hack4impact/flask-base
 
@@ -28,8 +28,8 @@ This app based on this nicely boilerplate: https://github.com/hack4impact/flask-
 ##### Clone the repository 
 
 ```
-$ git clone https://github.com/trinanda/AQUR.git
-$ cd AQUR/
+$ git clone https://github.com/trinanda/app-store.git
+$ cd app-store/
 ```
 
 ##### Initialize a virtual environment
@@ -167,7 +167,7 @@ $ python manage.py recreate_db
 $ python manage.py setup_dev
 ```
 
-Note that this will create an admin user with email and password specified by the `ADMIN_EMAIL` and `ADMIN_PASSWORD` config variables. If not specified, they are both `aqur@gmail.com` and `password` respectively.
+Note that this will create an admin user with email and password specified by the `ADMIN_EMAIL` and `ADMIN_PASSWORD` config variables. If not specified, they are both `appstore@gmail.com` and `password` respectively.
 
 ##### [Optional] Add fake data to the database
 

@@ -1,0 +1,71 @@
+{% extends "layouts/base-template.html" %}
+{% import 'macros/form_macros.html' as f %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+
+<style>
+  button {
+    width: 75px;
+    height: 35px;
+    margin-top: -20px;
+  }
+</style>
+
+<div id="mainContent">
+  <div class="row gap-20 masonry pos-r">
+    <div class="masonry-sizer col-md-6"></div>
+    <div class="masonry-item col-md-6">
+      <div class="bgc-white p-20 bd">
+        {% if course %}
+          <h2 class="c-grey-900">{{ _('Edit Product') }}</h2>
+        {% else %}
+          <h2 class="c-grey-900">{{ _('Add new Product') }}</h2>
+        {% endif %}
+        {% set flashes = {
+        'error': get_flashed_messages(category_filter=['form-error']),
+        'warning': get_flashed_messages(category_filter=['form-check-email']),
+        'info': get_flashed_messages(category_filter=['form-info']),
+        'success': get_flashed_messages(category_filter=['form-success'])
+        } %}
+        <div class="mT-30">
+          {{ f.begin_form(form, flashes) }}
+	          {% if product %}
+			        {{ f.render_form_field(form.name, value=product.name) }}
+		          {{ f.render_form_field(form.category, value=product.category) }}
+		          {{ f.render_form_field(form.color, value=product.color) }}
+			        {{ f.render_form_field(form.size, value=product.size) }}
+			        {{ f.render_form_field(form.barcode, value=product.barcode) }}
+			        {{ f.render_form_field(form.image, value=product.image) }}
+			        {{ f.render_form_field(form.description, value=product.description) }}
+	          {% else %}
+			        {{ f.render_form_field(form.name) }}
+		          {{ f.render_form_field(form.category) }}
+		          {{ f.render_form_field(form.color) }}
+			        {{ f.render_form_field(form.size) }}
+			        {{ f.render_form_field(form.barcode) }}
+			        {{ f.render_form_field(form.image) }}
+			        {{ f.render_form_field(form.description) }}
+		        {% endif %}
+		        {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
+	          {{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}
+	          {{ f.form_message(flashes['info'], header='Information', class='info') }}
+	          {{ f.form_message(flashes['success'], header='Success!', class='success') }}
+	          <br>
+	          {#{{ f.render_form_field(form.submit) }}#}
+	          <button type="submit" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">Submit</button>
+          {{ f.end_form() }}
+        </div>
+      </div>
+      {# Implement CSRF protection for site #}
+      {% if csrf_token()|safe %}
+      <div style="visibility: hidden; display: none">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token()|safe }}">
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

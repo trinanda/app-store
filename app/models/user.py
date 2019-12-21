@@ -7,8 +7,6 @@ from itsdangerous import BadSignature, SignatureExpired
 from sqlalchemy.ext import hybrid
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from ..models import Gender
-
 from .. import db, login_manager
 
 
@@ -61,7 +59,6 @@ class User(UserMixin, db.Model):
     confirmed = db.Column(db.Boolean, default=False)
     first_name = db.Column(db.String(64), index=True)
     last_name = db.Column(db.String(64), index=True)
-    gender = db.Column(db.Enum(Gender, name='gender'))
     date_of_birth = db.Column(db.Date())
     address = db.Column(db.String(255))
     photo = db.Column(db.Unicode(128))
